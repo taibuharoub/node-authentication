@@ -1,0 +1,21 @@
+{
+  "name": "node-authentication",
+  "version": "1.0.0",
+  "description": "Setting up Authentication with NodeJS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taibuharoub/node-authentication.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taibuharoub/node-authentication/issues"
+  },
+  "homepage": "https://github.com/taibuharoub/node-authentication#readme"
+}
