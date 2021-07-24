@@ -14,7 +14,8 @@
 
 > Setting up Authentication with NodeJS with different levels of security
 
-- Level 2
+## Level 2
+> Encryption
 
 ### 🏠 [Homepage](https://github.com/taibuharoub/node-authentication#readme)
 
