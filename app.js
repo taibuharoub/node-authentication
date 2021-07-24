@@ -1,3 +1,5 @@
+const path = require("path")
+
 const express = require("express");
 const compression = require("compression");
 const morgan = require("morgan");
@@ -9,8 +11,12 @@ const configRoutes = require("./routes");
 
 const server = express();
 
+server.set("view engine", "ejs");
+server.set("views", "views");
+
 server.use(express.json());
 server.use(express.urlencoded({ extended: false}));
+server.use(express.static(path.join(__dirname, "public")))
 server.use(cors());
 server.use(compression());
 server.use(morgan("combined", { stream: accessLogStream }));
