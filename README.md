@@ -14,8 +14,8 @@
 
 > Setting up Authentication with NodeJS with different levels of security
 
-## Level 3
-> Hashing Passwords
+## Level 4
+> Salting and Hashing Passwords
 
 ### 🏠 [Homepage](https://github.com/taibuharoub/node-authentication#readme)
 
