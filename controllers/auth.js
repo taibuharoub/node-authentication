@@ -2,7 +2,6 @@ const md5 = require("md5");
 const User = require("../models/User");
 
 exports.login = (req, res, next) => {
-    console.log(md5(12345));
     res.status(200).render("login")
 }
 
