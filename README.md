@@ -14,8 +14,9 @@
 
 > Setting up Authentication with NodeJS with different levels of security
 
-## Level 4
-> Salting and Hashing Passwords
+## Level 5
+> Cookies and Sessions
+>> Use passport to add cookies and sessions
 
 ### 🏠 [Homepage](https://github.com/taibuharoub/node-authentication#readme)
 
