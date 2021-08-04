@@ -4,6 +4,8 @@ const express = require("express");
 const compression = require("compression");
 const morgan = require("morgan");
 const cors = require("cors");
+const session = require("express-session");
+const passport = require("passport");
 const { accessLogStream } = require("./helpers/logging");
 require("dotenv").config();
 
@@ -17,6 +19,13 @@ server.set("views", "views");
 server.use(express.json());
 server.use(express.urlencoded({ extended: false}));
 server.use(express.static(path.join(__dirname, "public")))
+server.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true
+}));
+server.use(passport.initialize());
+server.use(passport.session());
 server.use(cors());
 server.use(compression());
 server.use(morgan("combined", { stream: accessLogStream }));

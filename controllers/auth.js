@@ -1,7 +1,12 @@
 const bcrypt = require("bcryptjs");
+const passport = require("passport")
+
 const User = require("../models/User");
 
-const saltRounds = 10;
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 exports.login = (req, res, next) => {
   res.status(200).render("login");
@@ -11,41 +16,43 @@ exports.register = (req, res, next) => {
   res.status(200).render("register");
 };
 
-exports.postRegister = (req, res, next) => {
-  bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-    const newUser = new User({
-      email: req.body.username,
-      password: hash,
-    });
+exports.logout = (req, res, next) => {
+  req.logout();
+  res.redirect('/');
+}
 
-    newUser.save((err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.render("secrets");
-      }
-    });
-  });
+exports.postRegister = (req, res, next) => {
+  /* const user = {
+    username: req.body.username,
+    fullName: "Taibu haroub"
+  } */
+  User.register({username: req.body.username}, req.body.password, function(err, user) {
+    if(err) {
+      console.log(err);
+      res.redirect("/register")
+    } else {
+      passport.authenticate("local")(req, res, function(){
+        res.redirect("/secrets")
+      })
+    }
+  })
 };
 
 exports.postLogin = (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password
+  })
 
-  User.findOne({ email: username }, (err, foundUser) => {
+  //login() method comes from password and has to be 
+  // called on req
+  req.login(user, function(err) {
     if (err) {
       console.log(err);
-      res.redirect("/login");
     } else {
-      if (foundUser) {
-        bcrypt.compare(password, foundUser.password, function (err, result) {
-          if (result === true) {
-            res.render("secrets");
-          }
-        });
-      } else {
-        res.redirect("/login");
-      }
+      passport.authenticate("local")(req, res, function(){
+        res.redirect("/secrets")
+      })
     }
-  });
+  })
 };
