@@ -12,10 +12,9 @@
   </a>
 </p>
 
-> Setting up Authentication with NodeJS with different levels of security
-
-## Level 5
-> Cookies and Sessions
+> Implement sign in with Google
+## Level 6
+> OAuth 2.0
 >> Use passport to add cookies and sessions
 
 ### 🏠 [Homepage](https://github.com/taibuharoub/node-authentication#readme)
