@@ -10,12 +10,12 @@ passport.use(User.createStrategy());
 passport.deserializeUser(User.deserializeUser()); */
 
 //belows works with any kind of authenication
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
     done(err, user);
   });
 });
@@ -30,9 +30,17 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+      console.log(profile.emails[0].value);
+      User.findOrCreate(
+        {
+          googleId: profile.id,
+          name: profile.displayName,
+          email: profile.emails[0].value,
+        },
+        function (err, user) {
+          return cb(err, user);
+        }
+      );
     }
   )
 );
@@ -95,7 +103,9 @@ exports.postLogin = (req, res, next) => {
   // passport.authenticate("google", { failureRedirect: '/login' })
   passport.authenticate("google", { scope: ["profile"] })
 }; */
-exports.getOAouth = passport.authenticate("google", { scope: ["profile"] });
+exports.getOAouth = passport.authenticate("google", {
+  scope: ["profile", "email"],
+});
 
 /* app.get(
   "/auth/google/callback",
@@ -106,16 +116,31 @@ exports.getOAouth = passport.authenticate("google", { scope: ["profile"] });
   }
 ); */
 
-exports.getOauthCallback = passport.authenticate("google", { failureRedirect: "/login" }), function (req, res) {res.redirect("/");}
-  // function (req, res) {
-  //   // Successful authentication, redirect secrets page.
-  //   res.redirect("/secrets");
-  // }
+// (exports.getOauthCallback = passport.authenticate("google", {
+//   failureRedirect: "/login",
+// })),
+//   function (req, res) {
+//     res.redirect("/");
+//   };
+// function (req, res) {
+//   // Successful authentication, redirect secrets page.
+//   res.redirect("/secrets");
+// }
+
+exports.getOauthCallback = passport.authenticate("google", {
+  successRedirect: "/secrets",
+  failureRedirect: "/login",
+});
 
 // exports.getOauthCallback = (req, res, next) => {
 //   passport.authenticate("google", { failureRedirect: "/login" })
 //   // Successful authentication, redirect secrets page.
 //   res.redirect("/secrets");
 // }
-  
 
+// exports.getOauthCallback =
+//   (passport.authenticate("google", { failureRedirect: "/login" }),
+//   (req, res, next) => {
+//     // Successful authentication, redirect home.
+//     res.redirect("/");
+//   });
