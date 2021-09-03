@@ -10,6 +10,7 @@ const userSchema = new Schema(
     password: String,
     googleId: String,
     name: String,
+    username: String,
   },
   { timestamps: true }
 );
